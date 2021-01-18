@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,5 +16,10 @@ namespace E_commerce.Models
         public double Price { get; set; }
         [Required]
         public string Description { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+
     }
 }

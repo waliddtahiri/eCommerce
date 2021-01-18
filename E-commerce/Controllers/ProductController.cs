@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce.Controllers
 {
@@ -33,7 +34,36 @@ namespace E_commerce.Controllers
         [HttpPost]
         public ActionResult Create(Product product)
         {
-            _context.Products.Add(product);
+            if (product.Id > 0)
+                _context.Entry(product).State = EntityState.Modified;
+            else
+                _context.Products.Add(product);
+            
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return BadRequest();
+
+            var product = _context.Products.SingleOrDefault(p => p.Id == id);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            return View("Create", product);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var product = _context.Products.SingleOrDefault(p => p.Id == id);
+            _context.Products.Remove(product);
+
             _context.SaveChanges();
 
             return RedirectToAction("Index");
