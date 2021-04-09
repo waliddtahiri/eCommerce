@@ -3,14 +3,43 @@
 @{
     ViewData["Title"] = "Index";
 }
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<style>
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        font-size: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
 
 <h1>Products List</h1>
 
 <hr />
 
+@*navbar for the categories*@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Category</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav" id="Category">
+        </ul>
+    </div>
+</nav>
+
+<br />
+
 <p>
     <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
+
 <table class="table table-bordered">
     <thead>
         <tr class="btn-primary">
@@ -27,22 +56,67 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="@item.Id">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> |
+                    <button class="btn btn-success btn-circle add">+</button>
+                    <span>7</span>
+                    <button class="btn btn-danger btn-circle delete">-</button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    /* change className */
+    /* let parentElementClass = parentElement.attr("class");
+       let newClass = "action" + parentElementClass;
+       parentElement.attr("class", newClass);
+       alert(parentElement.attr("class")); */
+    $(document).ready(function () {
+        //$('#CategoryId').change(function () {
+            var url = '@Url.Content("~/")' + "Product/GetCategory";
+            //var ddlsource = '#CategoryId';
+            $.getJSON(url, function (data) {
+                var items = '';
+                $('#Category').empty();
+                $.each(data, function(i, category) {
+                    items += "<li class='nav-item'><a class='nav-link' href='#'>" + category.text + "</a></li>";     
+                });
+                $('#Category').html(items);
+            });
+        //});
+    })
+    $(".add").click(function () {
+        let parentElement = $(this).parent();
+        let valueInput = parentElement.find(("span"));
+        let value = parseInt(valueInput.text());
+        value++;
+        valueInput.text(value);
+    });
+    $(".delete").click(function () {
+        let parentElement = $(this).parent();
+        let valueInput = parentElement.find(("span"));
+        let value = parseInt(valueInput.text());
+        if(value>0)
+        value--;
+        valueInput.text(value);
+    });
+</script>
+
+
+
+

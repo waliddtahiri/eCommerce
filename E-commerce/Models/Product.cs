@@ -16,10 +16,10 @@ namespace E_commerce.Models
         public double Price { get; set; }
         [Required]
         public string Description { get; set; }
-        [ForeignKey("CategoryId")]
+        [Required]
+        [ForeignKey("Category")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-
     }
 }

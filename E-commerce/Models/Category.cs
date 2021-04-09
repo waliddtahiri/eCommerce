@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace E_commerce.Models
     public class Category
     {
         public int Id { get; set; }
-        public String Name { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }

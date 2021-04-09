@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace E_commerce.Controllers
 {
@@ -24,6 +25,13 @@ namespace E_commerce.Controllers
         {
             var products = _context.Products.ToList();
             return View(products);
+        }
+
+        public JsonResult GetCategory()
+        {
+            var categories = _context.Categories.ToList();
+
+            return Json(new SelectList(categories, "Id", "Name"));
         }
 
         public ActionResult Create()
