@@ -24,7 +24,7 @@
 
 @*navbar for the categories*@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Category</a>
+    <a asp-action="Index" class="navbar-brand">Category</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -89,12 +89,13 @@
     $(document).ready(function () {
         //$('#CategoryId').change(function () {
             var url = '@Url.Content("~/")' + "Product/GetCategory";
+        var categoryLink = '@Url.Content("~/")' + "Product/SelectedCategory"
             //var ddlsource = '#CategoryId';
             $.getJSON(url, function (data) {
                 var items = '';
                 $('#Category').empty();
                 $.each(data, function(i, category) {
-                    items += "<li class='nav-item'><a class='nav-link' href='#'>" + category.text + "</a></li>";     
+                    items += `<li class="nav-item"><a class="nav-link" href="${categoryLink + "/" + category.value}"> ${category.text} </a></li>`;
                 });
                 $('#Category').html(items);
             });

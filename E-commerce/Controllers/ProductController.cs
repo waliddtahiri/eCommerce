@@ -27,6 +27,13 @@ namespace E_commerce.Controllers
             return View(products);
         }
 
+        public ActionResult SelectedCategory(int? id)
+        {
+            var products = _context.Products.Where(p => p.CategoryId == id).ToList();
+
+            return View("Index", products);
+        }
+
         public JsonResult GetCategory()
         {
             var categories = _context.Categories.ToList();
