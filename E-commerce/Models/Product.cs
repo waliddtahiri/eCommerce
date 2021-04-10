@@ -19,6 +19,7 @@ namespace E_commerce.Models
         [Required]
         [ForeignKey("Category")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
     }

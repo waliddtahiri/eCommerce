@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using E_commerce.ViewModels;
 
 namespace E_commerce.Controllers
 {
@@ -43,7 +44,15 @@ namespace E_commerce.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var _categories = _context.Categories.ToList();
+
+            var viewModel = new ProductViewModel
+            {
+                Product = new Product(),
+                Categories = _categories
+            };
+
+            return View(viewModel);
         }
         
         [HttpPost]
