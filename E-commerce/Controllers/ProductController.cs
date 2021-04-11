@@ -73,14 +73,21 @@ namespace E_commerce.Controllers
             if (id == null)
                 return BadRequest();
 
-            var product = _context.Products.SingleOrDefault(p => p.Id == id);
+            var _product = _context.Products.SingleOrDefault(p => p.Id == id);
+            var _categories = _context.Categories.ToList();
 
-            if(product == null)
+            if(_product == null)
             {
                 return NotFound();
-            }
+            } 
+            
+            var viewModel = new ProductViewModel
+                {
+                    Product = _product,
+                    Categories = _categories
+                };         
 
-            return View("Create", product);
+            return View("Create", viewModel);
         }
 
         public ActionResult Delete(int id)
